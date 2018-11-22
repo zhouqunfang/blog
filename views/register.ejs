@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title></title>
+    <link rel="stylesheet" href="../public/css/register.css">
+
+	</head>
+	<body>
+		<div class="wrapper">
+
+		<div class="container">
+		<h1>REGISTER</h1>
+			<form action="http://localhost:8989/login" method="get"  id="txt" onsubmit="return false" >
+				<input type="text" name="username" id="user" placeholder="passname" ><span class="user-tip"></span><br><br>
+				<input type="password" name="pass" id="pass"  placeholder="password"><span class="pass-tip"></span><br><br>	
+				<button class="onregis" >Register</button>		
+		</form>
+  	</div>
+
+
+    		<ul class="bg-bubbles">
+    				<li></li>
+    				<li></li>
+    				<li></li>
+    				<li></li>
+    				<li></li>
+    				<li></li>
+    				<li></li>
+    				<li></li>
+    				<li></li>
+    				<li></li>
+    		</ul>		
+  	</div>
+
+  		<script src="../public/js/jquery-1.11.1.js"></script>
+  		<script>
+  			$('input').eq(0).blur(function(event) {
+  				if($(this).val()==''){
+  					$('.user-tip').html('请输入用户名')
+  					
+  				}else{
+  					$.ajax({
+  						url: 'http://localhost:8989/user',
+  						type: 'get',
+  						data: {param1: $(this).val()},
+  						dataType: 'json',
+  						success:function(res,status,xhr){
+  							console.log(res.status)
+  							if(res.status=='ok'){
+  								$('.user-tip').html('进入下一步');
+  							}else{
+  								$('.user-tip').html('用户名已存在')
+  							}
+  						}
+  					})
+  					
+  					
+  					
+
+  				}
+  			});
+
+  			$('button').click(function(event) {
+  				var a=true;
+  				var b=true;
+  				if($('input').eq(0).val()==''){
+  					a=false;
+  					$('.user-tip').html('请输入用户名')
+  				}else{
+  					$('.user-tip').html('进入下一步')
+  				}
+  				if($('input').eq(1).val()==''){
+  					b=false
+  					$('.pass-tip').html('请输入密码')
+  				}else{
+  					$('.pass-tip').html('进入下一步')
+  				}
+
+  				if(a&&b){
+  					$.ajax({
+  						url: 'http://localhost:8989/user',
+  						type: 'get',
+  						dataType: 'json',
+  						data: {param1: $('input').eq(0).val(),pass:$('input').eq(1).val()},
+  						success:function(res,status,xhr){
+  							console.log(res.status);
+  							if(res.status=='数据插入成功'){
+  								// 页面跳转
+  								location.href="http://localhost:8989/"
+  							}
+  							if(res.status=='ok'){
+  								$('.user-tip').html('进入下一步');
+  							}else{
+  								$('.user-tip').html('用户名已存在')
+  							}
+  						}
+  					})
+  				}
+  			});
+
+
+  		</script>
+  	</body>
+  </html>

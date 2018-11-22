@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title></title>
+		<link rel="stylesheet" href="">
+		<style>
+		    *{
+		    	margin:0;
+		    	padding: 0;
+		    	list-style: none;
+		    	
+		    	
+		    }
+		    body{
+		    	background: #e5e0e6;
+		    }
+		    .quit{
+		    	position: absolute;
+		    	right: 5px;
+		    	top: 5px;
+		    	color: #1297a9;
+		    	font-size: 15px;
+
+		    }
+		    .mytxt{
+		    	position: absolute;
+		    	left: 5px;
+		    	top: 5px;
+		    	font-weight: bold;
+		    	font-size: 15px;
+		    	text-decoration: none;
+		    }
+		    h4{
+               
+                margin-right: auto;
+                margin-left: auto;
+                margin-top: 30px;
+                margin-bottom: 30px;
+                text-align: center;
+                height: 50px;
+                width: 200px;
+                font-size: 40px;
+                color: #f2c8cc;
+		    }
+
+            div.content{
+            	margin:4px auto;
+            	padding: 20px;
+            	width: 860px;
+            	height: 410px;
+            	border: 2px solid #aab7ae;
+            	text-align: center;
+            	border-radius: 5px;
+         
+
+            }
+
+			.one{
+				width: 850px;
+				height: 30px;
+				margin-top: 6px;
+				border:1px solid #aab7ae;
+				border-radius: 4px;
+			    outline: none;
+			}
+
+			.two{
+				width: 850px;
+				height: 250px;
+				margin-top: 6px;
+				border:1px solid #aab7ae;
+				outline: none;
+				font-size: 20px;
+				resize: none;
+				border-radius: 4px;
+						}
+			.title{
+				/*margin-top: 13px;*/
+				margin-left: -820px;
+				color: #1297aa;
+				font-weight: bold;
+			}
+			.txt{
+				margin-top: 13px;
+				margin-bottom: 0px;
+				margin-left:-820px;
+				color: #1297aa;
+				font-weight: bold;
+
+
+			}
+			.btn{
+				margin-top: 15px;
+				width: 200px;
+				line-height: 40px;
+				font-size: 15px;
+				color: #fff;
+				background: none;
+				border: none;
+				background: #1297aa;
+				opacity: 0.7;
+				border-radius: 5px;
+					color: #fff;
+				
+			}
+			.btn>a{
+			
+			}
+			span{
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<a href="http://localhost:8989/quit" class="quit">退出登陆
+		</a>
+		<a href="http://localhost:8989/myblog" class="mytxt">★我的文章</a>
+	 	<h4>MY BLOG</h4>
+	 	<div class="content">
+	 		<p class="title">标题</p>
+	 		<input class="one"  type="text" placeholder="请输入标题">
+			<p class="txt">内容</p>	 
+			<textarea class="two"  ></textarea>	
+			<button class="btn">发布文章</button>
+	 	</div>
+
+		
+		<script src="../public/js/jquery-1.11.1.js"></script>
+
+		<script>
+
+			$('.btn').click(function(){
+				var flag =true;
+				if ($('.one').val()=='') {
+					flag=false;
+					alert('标题不能为空')
+				}
+
+				if ($('.two').val()=='') {
+					flag=false;
+					alert('内容不能为空')
+				}
+				
+				if(flag){
+				$.ajax({
+					url:'http://localhost:8989/content',
+					type:'get',
+					dataType:'json',
+					data:{
+						title1:$('.one').val(),text1:$('.two').val()
+					},
+					success:function(res){
+						console.log(res)
+						if (res.status=='ok') {
+							location.href='http://localhost:8989/myblog'
+						}
+					    
+							}
+
+					})
+				}
+               
+			})
+
+     
+		</script>
+	</body>
+</html>

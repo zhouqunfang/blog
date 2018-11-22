@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title></title>
+		<link rel="stylesheet" href="../public/css/login.css">
+	</head>
+	<body>
+		<div class="wrapper">
+
+		<div class="container">
+			<h1>Welcome</h1>
+			 <form action="" method="get"  id="txt" >
+				<input type="text" name="username" id="user" placeholder="passname"><span class="user-tip" ></span><br><br>
+				<input type="password" name="pass" id="pass"  placeholder="password"><span class="pass-tip" placeholder="password"></span><br><br>	
+				<!--<input type="submit" id="btn">-->
+				<button class="onlogin" >Login</button>
+			</form>
+           <a href="http://localhost:8989/register" class="regis">请注册</a>
+
+		</div>	
+		
+		
+
+			<ul class="bg-bubbles">
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>			
+	</div>
+    
+		<script src="../public/js/jquery-1.11.1.js"></script>
+		<script>
+  
+			$('input').eq(0).blur(function(event) {
+				if($(this).val()==''){
+					$('.user-tip').html('请输入用户名')
+				}else{
+					$.ajax({
+						url: 'http://localhost:8989/onuse',
+						type: 'get',
+						data: {param1: $(this).val()},
+						dataType: 'json',
+						success:function(res,status,xhr){
+							console.log(res)
+							if(res.status=="ok"){
+								$('.user-tip').html('用户名输入成功');
+							}else{
+								$('.user-tip').html('用户名不存在');
+							}
+						}
+					})
+				}
+			});
+			
+			
+			$('.onlogin').click(function() {
+			    event.preventDefault();
+				var a =true;
+				var b=true;
+				if($('input').eq(0).val()==''){
+					a=false;
+					$('.user-tip').html('请输入用户名')
+				}else{
+					$('.user-tip').html('进入下一步')
+				}
+				if($('input').eq(1).val()==''){
+					b=false;
+					$('.pass-tip').html('请输入密码')
+				}else{
+					$('.pass-tip').html('进入下一步')
+				}
+
+				if(a&&b){
+					$.ajax({
+						url: 'http://localhost:8989/onuse',
+						type: 'get',
+						dataType: 'json',
+						data: {param1:$('input').eq(0).val(),pass1:$('input').eq(1).val()},
+						success:function(res,status,xhr){
+							console.log(res)
+						
+							if(res.status=="密码正确"){
+							location.href="http://localhost:8989/"
+							}
+							if(res.status=='ok'){
+								$('.pass-tip').html('请正确输入密码');
+							}
+							if(res.status=='no'){
+			                    $('.pass-tip').html('密码错误')
+								$('.user-tip').html('请正确输入用户名');
+							}
+						}
+					})					
+					
+				}
+				
+			});
+
+		</script>
+	</body>
+</html>
